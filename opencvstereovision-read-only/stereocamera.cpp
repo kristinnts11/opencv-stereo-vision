@@ -2,7 +2,7 @@
 
 StereoCamera::StereoCamera()
 {
-    for(int lr=0;lr<3;lr++){
+    for(int lr=0;lr<2;lr++){
         captures[lr] = 0;
         frames[lr] = 0;
         framesGray[lr] = 0;
@@ -23,12 +23,18 @@ StereoCamera::~StereoCamera()
 int StereoCamera::setup(CvSize imageSize){
     this->imageSize = imageSize;
 
-        captures[1] = cvCaptureFromCAM(CV_CAP_DSHOW + 1);
-        captures[2] = cvCaptureFromCAM(CV_CAP_DSHOW + 2);
+    captures[0] = cvCaptureFromCAM(1);
+    captures[1] = cvCaptureFromCAM(2);
 
-    if( captures[1] && captures[2]){
 
-        for(int i=0;i<3;i++){
+    if( captures[0] && captures[1]){
+
+        system("uvcdynctrl -d video1 --set=\"Focus, Auto\" 0");
+        system("uvcdynctrl -d video2 --set=\"Focus, Auto\" 0");
+        system("uvcdynctrl -d video1 \"Focus (absolute)\" 5");
+        system("uvcdynctrl -d video2 \"Focus (absolute)\" 5");
+
+        for(int i=0;i<2;i++){
                 cvSetCaptureProperty(captures[i] ,CV_CAP_PROP_FRAME_WIDTH,imageSize.width);
                 cvSetCaptureProperty(captures[i] ,CV_CAP_PROP_FRAME_HEIGHT,imageSize.height);
         }
@@ -44,9 +50,9 @@ int StereoCamera::setup(CvSize imageSize){
 }
 
 int StereoCamera::capture(){
+    frames[0] = cvQueryFrame(captures[0]);
     frames[1] = cvQueryFrame(captures[1]);
-    frames[2] = cvQueryFrame(captures[2]);
-    return (captures[1] && captures[2]) ? RESULT_OK : RESULT_FAIL;
+    return (captures[0] && captures[1]) ? RESULT_OK : RESULT_FAIL;
 }
 
 IplImage*  StereoCamera::getFramesGray(int lr){

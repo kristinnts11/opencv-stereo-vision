@@ -1,20 +1,18 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-int h = 120;
-int w = 320;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     imageRectifiedPair = 0;
-    vision = new StereoVision(w,h);
+    vision = new StereoVision(176,144);
     connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
 
     //UNCOMMENT ONLY ONE OF THE FOLLOWING 3 LINES:
-    //stereoVisionTest("./images/set1/",7,4);  //run test1, using pre-saved stereo images
-    //stereoVisionTest("./images/set2/",9,6);  //run test2 using pre-saved stereo images
+    //stereoVisionTest("../images/set1/",7,4);  //run test1, using pre-saved stereo images
+    //stereoVisionTest("../images/set2/",9,6);  //run test2 using pre-saved stereo images
     timer.start(50); //run program normally , using 2 USB cammeras
 }
 
@@ -38,14 +36,14 @@ void MainWindow::on_pushButtonCalibrate_clicked()
 }
 
 void MainWindow::timeout(){
-	ui->progressBar->setMaximum( ui->spinBoxSampleCount->value());
-	ui->progressBar->setValue(vision->getSampleCount());
+    ui->progressBar->setMaximum( ui->spinBoxSampleCount->value());
+    ui->progressBar->setValue(vision->getSampleCount());
 
 
 
     if(!camera.ready){
         trace("Connecting to cameras...");
-        if(RESULT_OK != camera.setup(cvSize(h,w))){
+        if(RESULT_OK != camera.setup(cvSize(176,144))){
             trace("-FAILED");
         }else{
             trace("+OK");
@@ -58,8 +56,8 @@ void MainWindow::timeout(){
         };
     }else{
         if(RESULT_OK == camera.capture()){
-            cvShowImage("left",camera.frames[1]);
-            cvShowImage("right",camera.frames[2]);
+            cvShowImage("left",camera.frames[0]);
+            cvShowImage("right",camera.frames[1]);
         };
 
 
@@ -73,7 +71,7 @@ void MainWindow::timeout(){
                 sampleTimeout = ui->spinBoxInterval->value()*1000;
                 trace(tr("Processing sample %1 of %2 Finding chessboard corners ...").arg(vision->getSampleCount()+1).arg(ui->spinBoxSampleCount->value()));
 
-                int result = vision->calibrationAddSample(camera.getFramesGray(1),camera.getFramesGray(2));
+                int result = vision->calibrationAddSample(camera.getFramesGray(0),camera.getFramesGray(1));
 
                 if(RESULT_OK == result){
                     trace("+OK");
@@ -88,7 +86,7 @@ void MainWindow::timeout(){
 
             }else{
                 ui->lcdNumber->display(sampleTimeout/1000);
-				sampleTimeout -= timer.interval();
+                sampleTimeout -= timer.interval();
 
             }
         }else{
