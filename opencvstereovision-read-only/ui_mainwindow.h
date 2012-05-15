@@ -160,7 +160,7 @@ public:
         pushButtonLoad->setText(QApplication::translate("MainWindow", "Load", 0, QApplication::UnicodeUTF8));
         pushButtonSave->setText(QApplication::translate("MainWindow", "Save", 0, QApplication::UnicodeUTF8));
         labelSampleTimeout->setText(QApplication::translate("MainWindow", "Seconds till next sample:", 0, QApplication::UnicodeUTF8));
-        progressBar->setFormat(QApplication::translate("MainWindow", "%v of %m Calibration Samples Taken", 0, QApplication::UnicodeUTF8));
+        progressBar->setFormat(QApplication::translate("MainWindow", "%v of %m Calibration Samples Taken test", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };
@@ -172,3 +172,4 @@ namespace Ui {
 QT_END_NAMESPACE
 
 #endif // UI_MAINWINDOW_H
+

@@ -1,13 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
+//int w = 640/2 , h = 480/2 ;
+int w = 176 , h =144 ;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     imageRectifiedPair = 0;
-    vision = new StereoVision(176,144);
+    vision = new StereoVision(w,h);
     connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
 
     //UNCOMMENT ONLY ONE OF THE FOLLOWING 3 LINES:
@@ -43,15 +44,15 @@ void MainWindow::timeout(){
 
     if(!camera.ready){
         trace("Connecting to cameras...");
-        if(RESULT_OK != camera.setup(cvSize(176,144))){
+        if(RESULT_OK != camera.setup(cvSize(w,h))){
             trace("-FAILED");
         }else{
             trace("+OK");
             on_pushButtonLoad_clicked();
-            cvNamedWindow( "left");
-            cvNamedWindow( "right");
-            cvNamedWindow( "rectified", 1 );
-            cvNamedWindow( "depth", 1 );
+            cvNamedWindow( "left",CV_WINDOW_FREERATIO);
+            cvNamedWindow( "right",CV_WINDOW_FREERATIO);
+            cvNamedWindow( "rectified",1);
+            cvNamedWindow( "depth",1);
             ui->pushButtonCalibrate->setEnabled(true);
         };
     }else{

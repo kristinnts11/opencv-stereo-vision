@@ -13,6 +13,7 @@ SOURCES += main.cpp \
     stereocamera.cpp \
     stereovisiontest.cpp
 HEADERS += mainwindow.h \
-    stereovision.h \    stereocamera.h \
+    stereovision.h \
+    stereocamera.h \
     ui_mainwindow.h
 FORMS += mainwindow.ui
