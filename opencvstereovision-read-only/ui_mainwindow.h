@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Jun 3 17:23:31 2010
-**      by: Qt User Interface Compiler version 4.6.0
+** Created: Wed May 16 12:43:47 2012
+**      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -41,7 +41,7 @@ public:
     QLabel *label_4;
     QSpinBox *spinBoxCornersX;
     QSpinBox *spinBoxCornersY;
-    QLabel *label_5;
+    QLabel *label_5_t;
     QLineEdit *lineEditFilename;
     QPushButton *pushButtonLoad;
     QPushButton *pushButtonSave;
@@ -78,7 +78,7 @@ public:
         pushButtonCalibrate->setGeometry(QRect(390, 30, 131, 51));
         spinBoxSampleCount = new QSpinBox(centralWidget);
         spinBoxSampleCount->setObjectName(QString::fromUtf8("spinBoxSampleCount"));
-        spinBoxSampleCount->setGeometry(QRect(130, 10, 46, 20));
+        spinBoxSampleCount->setGeometry(QRect(160, 10, 46, 20));
         spinBoxSampleCount->setMinimum(3);
         spinBoxSampleCount->setValue(10);
         label = new QLabel(centralWidget);
@@ -86,23 +86,23 @@ public:
         label->setGeometry(QRect(10, 10, 111, 20));
         label_2 = new QLabel(centralWidget);
         label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setGeometry(QRect(10, 40, 141, 31));
+        label_2->setGeometry(QRect(0, 30, 151, 41));
         label_2->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         label_2->setWordWrap(true);
         spinBoxInterval = new QSpinBox(centralWidget);
         spinBoxInterval->setObjectName(QString::fromUtf8("spinBoxInterval"));
-        spinBoxInterval->setGeometry(QRect(130, 40, 46, 21));
+        spinBoxInterval->setGeometry(QRect(160, 40, 46, 21));
         spinBoxInterval->setMinimum(0);
         spinBoxInterval->setValue(5);
         label_3 = new QLabel(centralWidget);
         label_3->setObjectName(QString::fromUtf8("label_3"));
-        label_3->setGeometry(QRect(10, 70, 111, 20));
+        label_3->setGeometry(QRect(0, 70, 151, 20));
         label_4 = new QLabel(centralWidget);
         label_4->setObjectName(QString::fromUtf8("label_4"));
         label_4->setGeometry(QRect(10, 100, 111, 20));
         spinBoxCornersX = new QSpinBox(centralWidget);
         spinBoxCornersX->setObjectName(QString::fromUtf8("spinBoxCornersX"));
-        spinBoxCornersX->setGeometry(QRect(130, 70, 46, 20));
+        spinBoxCornersX->setGeometry(QRect(160, 70, 46, 20));
         spinBoxCornersX->setMinimum(3);
         spinBoxCornersX->setValue(10);
         spinBoxCornersY = new QSpinBox(centralWidget);
@@ -110,9 +110,9 @@ public:
         spinBoxCornersY->setGeometry(QRect(130, 100, 46, 20));
         spinBoxCornersY->setMinimum(3);
         spinBoxCornersY->setValue(7);
-        label_5 = new QLabel(centralWidget);
-        label_5->setObjectName(QString::fromUtf8("label_5"));
-        label_5->setGeometry(QRect(10, 130, 111, 20));
+        label_5_t = new QLabel(centralWidget);
+        label_5_t->setObjectName(QString::fromUtf8("label_5_t"));
+        label_5_t->setGeometry(QRect(10, 130, 111, 20));
         lineEditFilename = new QLineEdit(centralWidget);
         lineEditFilename->setObjectName(QString::fromUtf8("lineEditFilename"));
         lineEditFilename->setGeometry(QRect(130, 130, 251, 20));
@@ -155,12 +155,12 @@ public:
         label_2->setText(QApplication::translate("MainWindow", "Auto Sample Interval (seconds, 0=manual):", 0, QApplication::UnicodeUTF8));
         label_3->setText(QApplication::translate("MainWindow", "Chessboard Corners X:", 0, QApplication::UnicodeUTF8));
         label_4->setText(QApplication::translate("MainWindow", "Chessboard Corners X:", 0, QApplication::UnicodeUTF8));
-        label_5->setText(QApplication::translate("MainWindow", "Calibration File:", 0, QApplication::UnicodeUTF8));
+        label_5_t->setText(QApplication::translate("MainWindow", "Calibration File:", 0, QApplication::UnicodeUTF8));
         lineEditFilename->setText(QApplication::translate("MainWindow", "calibration.dat", 0, QApplication::UnicodeUTF8));
         pushButtonLoad->setText(QApplication::translate("MainWindow", "Load", 0, QApplication::UnicodeUTF8));
         pushButtonSave->setText(QApplication::translate("MainWindow", "Save", 0, QApplication::UnicodeUTF8));
         labelSampleTimeout->setText(QApplication::translate("MainWindow", "Seconds till next sample:", 0, QApplication::UnicodeUTF8));
-        progressBar->setFormat(QApplication::translate("MainWindow", "%v of %m Calibration Samples Taken test", 0, QApplication::UnicodeUTF8));
+        progressBar->setFormat(QApplication::translate("MainWindow", "%v of %m Calibration Samples Taken", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };
@@ -172,4 +172,3 @@ namespace Ui {
 QT_END_NAMESPACE
 
 #endif // UI_MAINWINDOW_H
-

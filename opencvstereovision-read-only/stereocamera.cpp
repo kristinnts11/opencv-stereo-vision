@@ -32,9 +32,10 @@ int StereoCamera::setup(CvSize imageSize){
         captures[0],
         CV_CAP_PROP_FOURCC
         );
-        char* fourcc = (char*) (&f);
+
         printf("fourcc = %s\r\n",fourcc);
 */
+        //char* fourcc = "BGR3";
         system("uvcdynctrl -d video1 --set=\"Focus, Auto\" 0");
         system("uvcdynctrl -d video2 --set=\"Focus, Auto\" 0");
         system("uvcdynctrl -d video1 \"Focus (absolute)\" 5");
@@ -45,7 +46,9 @@ int StereoCamera::setup(CvSize imageSize){
         for(int i=0;i<2;i++){
                 cvSetCaptureProperty(captures[i] ,CV_CAP_PROP_FRAME_WIDTH,imageSize.width);
                 cvSetCaptureProperty(captures[i] ,CV_CAP_PROP_FRAME_HEIGHT,imageSize.height);
+                //cvSetCaptureProperty(captures[i],CV_CAP_PROP_FOURCC,1);
                 cvSetCaptureProperty(captures[i],CV_CAP_PROP_FPS,10);
+
         }
 
 

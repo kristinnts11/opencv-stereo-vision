@@ -51,8 +51,8 @@ void MainWindow::timeout(){
             on_pushButtonLoad_clicked();
             cvNamedWindow( "left",CV_WINDOW_FREERATIO);
             cvNamedWindow( "right",CV_WINDOW_FREERATIO);
-            cvNamedWindow( "rectified",1);
-            cvNamedWindow( "depth",1);
+            cvNamedWindow( "rectified",CV_WINDOW_FREERATIO);
+            cvNamedWindow( "depth",CV_WINDOW_FREERATIO);
             ui->pushButtonCalibrate->setEnabled(true);
         };
     }else{
