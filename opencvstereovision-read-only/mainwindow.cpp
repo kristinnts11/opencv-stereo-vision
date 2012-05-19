@@ -1,40 +1,25 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-//int w = 640/2 , h = 480/2 ;
-int w =640/2  , h =360/2 ;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     imageRectifiedPair = 0;
-
-    vision = new StereoVision(w,h);
+    vision = new StereoVision(176,144);
     connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
-
-    BMset.preFilterSize = 41;
-    BMset.preFilterCap = 31;
-    BMset.SADWindowSize = 41;
-    BMset.minDisparity=-64;
-    BMset.numberOfDisparities=128;
-    BMset.textureThreshold=10;
-    BMset.uniquenessRatio=15;
 
     //UNCOMMENT ONLY ONE OF THE FOLLOWING 3 LINES:
     //stereoVisionTest("../images/set1/",7,4);  //run test1, using pre-saved stereo images
     //stereoVisionTest("../images/set2/",9,6);  //run test2 using pre-saved stereo images
-    //timer.start(50); //run program normally , using 2 USB cammeras
+    timer.start(50); //run program normally , using 2 USB cammeras
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    timer.stop();
     cvReleaseMat(&imageRectifiedPair);
-
-    //cvReleaseImage( &imageRectifiedPair);
-    //cvReleaseImage( &vision->imageDepthNormalized);
 }
 
 void MainWindow::trace(QString str){
@@ -58,21 +43,21 @@ void MainWindow::timeout(){
 
     if(!camera.ready){
         trace("Connecting to cameras...");
-        if(RESULT_OK != camera.setup(cvSize(w,h))){
+        if(RESULT_OK != camera.setup(cvSize(176,144))){
             trace("-FAILED");
         }else{
             trace("+OK");
             on_pushButtonLoad_clicked();
-            cvNamedWindow( "left",CV_WINDOW_FREERATIO);
-            cvNamedWindow( "right",CV_WINDOW_FREERATIO);
-
+            cvNamedWindow( "left");
+            cvNamedWindow( "right");
+            cvNamedWindow( "rectified", 1 );
+            cvNamedWindow( "depth", 1 );
             ui->pushButtonCalibrate->setEnabled(true);
         };
     }else{
         if(RESULT_OK == camera.capture()){
             cvShowImage("left",camera.frames[0]);
             cvShowImage("right",camera.frames[1]);
-            //displayOutput();
         };
 
 
@@ -118,7 +103,7 @@ void MainWindow::displayOutput(){
     CvSize imageSize = vision->getImageSize();
     if(!imageRectifiedPair) imageRectifiedPair = cvCreateMat( imageSize.height, imageSize.width*2,CV_8UC3 );
 
-    vision->stereoProcess(camera.getFramesGray(0), camera.getFramesGray(1),BMset);
+    vision->stereoProcess(camera.getFramesGray(0), camera.getFramesGray(1));
 
 
     CvMat part;
@@ -128,8 +113,6 @@ void MainWindow::displayOutput(){
     cvCvtColor( vision->imagesRectified[1], &part, CV_GRAY2BGR );
     for(int j = 0; j < imageSize.height; j += 16 )
         cvLine( imageRectifiedPair, cvPoint(0,j),cvPoint(imageSize.width*2,j),CV_RGB((j%3)?0:255,((j+1)%3)?0:255,((j+2)%3)?0:255));
-    cvNamedWindow( "rectified",CV_WINDOW_AUTOSIZE);
-    cvNamedWindow( "depth",CV_WINDOW_AUTOSIZE);
     cvShowImage( "rectified", imageRectifiedPair );
 
 
@@ -156,44 +139,4 @@ void MainWindow::on_pushButtonSave_clicked()
     }else{
         trace("-FAIL");
     };
-}
-
-//On Capture Button clicked
-void MainWindow::on_CaptureButton_clicked()
-{
-    timer.start(50); //run program normally , using 2 USB cammeras
-}
-//On Close Button clicked
-void MainWindow::on_CloseButton_clicked()
-{
-    timer.stop();
-    cvDestroyAllWindows();
-    cvReleaseImage( &camera.frames[0] );
-    cvReleaseImage( &camera.frames[1] );
-    this->~MainWindow();
-}
-
-//Callback for adjustment preFilterSize
-void MainWindow::on_horizontalSlider_valueChanged(int value)
-{
-
-    if (value == NULL) {
-        trace(tr("WARNING: data is null\n"));
-        return;
-    }
-
-    //set the parameter,
-    //data->BMState->preFilterSize = value;
-    //vision->stereoProcess();
-}
-
-//Callback for adjustment preFilterCap
-void MainWindow::on_horizontalSlider_2_valueChanged(int value)
-{
-    if (value == NULL) {
-        trace(tr("WARNING: data is null\n"));
-        return;
-    }
-
-    //data->BMState->preFilterCap = value;
 }
