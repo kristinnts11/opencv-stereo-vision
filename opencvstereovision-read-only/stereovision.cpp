@@ -175,7 +175,7 @@ int StereoVision::calibrationEnd(){
     return RESULT_OK;
 }
 
-int StereoVision::stereoProcess(CvArr* imageSrcLeft,CvArr* imageSrcRight){
+int StereoVision::stereoProcess(CvArr* imageSrcLeft,CvArr* imageSrcRight,BMsetting setting){
     if(!calibrationDone) return RESULT_FAIL;
 
     if(!imagesRectified[0]) imagesRectified[0] = cvCreateMat( imageSize.height,imageSize.width, CV_8U );
@@ -183,7 +183,7 @@ int StereoVision::stereoProcess(CvArr* imageSrcLeft,CvArr* imageSrcRight){
     if(!imageDepth) imageDepth = cvCreateMat( imageSize.height,imageSize.width, CV_16S );
     if(!imageDepthNormalized) imageDepthNormalized = cvCreateMat( imageSize.height,imageSize.width, CV_8U );
 
-    //rectify images
+   //rectify images
     cvRemap( imageSrcLeft, imagesRectified[0] , mx1, my1 );
     cvRemap( imageSrcRight, imagesRectified[1] , mx2, my2 );
 
@@ -197,8 +197,17 @@ int StereoVision::stereoProcess(CvArr* imageSrcLeft,CvArr* imageSrcRight){
     BMState->textureThreshold=10;
     BMState->uniquenessRatio=15;
 
+//    BMState->preFilterSize=setting.preFilterSize;
+//    BMState->preFilterCap=setting.preFilterCap;
+//    BMState->SADWindowSize=setting.SADWindowSize;
+//    BMState->minDisparity=-setting.minDisparity;
+//    BMState->numberOfDisparities=setting.numberOfDisparities;
+//    BMState->textureThreshold=setting.textureThreshold;
+//    BMState->uniquenessRatio=setting.uniquenessRatio;
+
     cvFindStereoCorrespondenceBM( imagesRectified[0], imagesRectified[1], imageDepth, BMState);
     cvNormalize( imageDepth, imageDepthNormalized, 0, 256, CV_MINMAX );
+
 
     cvReleaseStereoBMState(&BMState);
 

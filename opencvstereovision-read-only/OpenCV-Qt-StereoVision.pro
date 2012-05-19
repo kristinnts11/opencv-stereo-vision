@@ -10,8 +10,7 @@ INCLUDEPATH += /usr/local/include/opencv
 SOURCES += main.cpp \
     mainwindow.cpp \
     stereovision.cpp \
-    stereocamera.cpp \
-    stereovisiontest.cpp
+    stereocamera.cpp
 HEADERS += mainwindow.h \
     stereovision.h \
     stereocamera.h \

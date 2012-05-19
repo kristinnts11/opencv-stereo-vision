@@ -40,14 +40,15 @@ int StereoCamera::setup(CvSize imageSize){
         system("uvcdynctrl -d video2 --set=\"Focus, Auto\" 0");
         system("uvcdynctrl -d video1 \"Focus (absolute)\" 5");
         system("uvcdynctrl -d video2 \"Focus (absolute)\" 5");
-        system("uvcdynctrl -d video1 --set=\"Frame rate\" 7");
-        system("uvcdynctrl -d video2 --set=\"Frame rate\" 7");
+       // system("uvcdynctrl -d video1 --set=\"Frame Rate\" 30/1");
+       // system("uvcdynctrl -d video2 --set=\"Frame Rate\" 10/1");
 
         for(int i=0;i<2;i++){
                 cvSetCaptureProperty(captures[i] ,CV_CAP_PROP_FRAME_WIDTH,imageSize.width);
                 cvSetCaptureProperty(captures[i] ,CV_CAP_PROP_FRAME_HEIGHT,imageSize.height);
-                //cvSetCaptureProperty(captures[i],CV_CAP_PROP_FOURCC,1);
-                cvSetCaptureProperty(captures[i],CV_CAP_PROP_FPS,10);
+                cvSetCaptureProperty(captures[i],CV_CAP_PROP_FOURCC,CV_PROP('Y','U','Y','V'));
+                //captures[i].set(CV_CAP_PROP_FPS);
+                // cvSetCaptureProperty(captures[i],CV_CAP_PROP_FPS,10);
 
         }
 

@@ -42,6 +42,20 @@ public:
     CvMat* imagesRectified[2];
     CvMat  *imageDepth,*imageDepthNormalized;
 
+
+    struct BMsetting {
+        int preFilterSize ;
+        int preFilterCap;
+        int SADWindowSize;
+        int minDisparity;
+        int numberOfDisparities;
+        int textureThreshold;
+        int uniquenessRatio;
+
+    };
+
+
+
     void calibrationStart(int cornersX,int cornersY);
     int calibrationAddSample(IplImage* imageLeft,IplImage* imageRight);
     int calibrationEnd();
@@ -49,7 +63,7 @@ public:
     int calibrationSave(const char* filename);
     int calibrationLoad(const char* filename);
 
-    int stereoProcess(CvArr* imageSrcLeft,CvArr* imageSrcRight);
+    int stereoProcess(CvArr* imageSrcLeft,CvArr* imageSrcRight,BMsetting setting);
 
     CvSize getImageSize(){return imageSize;}
     bool getCalibrationStarted(){return calibrationStarted;}
